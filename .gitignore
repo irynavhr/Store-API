@@ -1,0 +1,46 @@
+# 🔹 Virtual environment
+venv/
+.env/
+.venv/
+
+# 🔹 Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🔹 Environment variables
+.env
+.env.*
+!.env.example
+
+# 🔹 IDE
+.vscode/
+.idea/
+
+# 🔹 OS files
+.DS_Store
+Thumbs.db
+
+# 🔹 Logs
+*.log
+
+
+# 🔹 Alembic (якщо буде кеш)
+alembic/versions/__pycache__/
+
+# 🔹 Testing
+.pytest_cache/
+.coverage
+test_db.py
+
+# 🔹 Build
+dist/
+build/
+*.egg-info/
+
+# 🔹 DB 
+db.py
+
+# 🔹 Architecture
+hint.txt
