@@ -9,11 +9,10 @@ from models.user import User
 
 
 
-
-# дістаємо токен з хедера запиту
+# FETCH TOKEN FROM HEADER
 oauth2_scheme = HTTPBearer()
 
-# перряємо користувача і дістаємо його дані
+# CHECK USER AND RETURN IT, IF TOKEN IS VALID, IF NOT - THROW 401
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
@@ -35,8 +34,7 @@ def get_current_user(
 
     return user
 
-
-# якщо адмін, то повертаємо користувача, якщо ні - помилка 403
+# IF USER IS NOT ADMIN - THROW 403, ELSE RETURN USER
 def is_it_admin(user: User = Depends(get_current_user)):
     if user.role != "admin":
         raise HTTPException(status_code=403, detail="Admin only")

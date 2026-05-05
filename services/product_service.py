@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from models.product import Product
 
 
-
+# CREATE PRODUCT
 def create_product(db: Session, data):
     product = Product(**data.dict())
     db.add(product)
@@ -10,7 +10,7 @@ def create_product(db: Session, data):
     db.refresh(product)
     return product
 
-
+# GET PRODUCTS WITH FILTERS
 def get_products(
     db: Session,
     search: str | None = None,
@@ -36,7 +36,7 @@ def get_products(
 
     return query.offset(offset).limit(limit).all()
 
-
+# UPDATE PRODUCT BY ID
 def update_product(db: Session, product_id: int, data):
     product = db.query(Product).get(product_id)
     if not product:
@@ -49,7 +49,7 @@ def update_product(db: Session, product_id: int, data):
     db.refresh(product)
     return product
 
-
+# DELETE PRODUCT BY ID
 def delete_product(db: Session, product_id: int):
     product = db.query(Product).get(product_id)
     if not product:

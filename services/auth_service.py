@@ -5,8 +5,11 @@ from core.security import hash_password
 from core.security import verify_password
 from core.jwt import create_access_token
 
+
+
+# REGISTER A NEW USER and RETURN USER OBJECT
 def register_user(db, email: str, password: str):
-    # перевірка чи існує користувач
+    # CHECK IF USER ALREADY EXISTS 
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -24,7 +27,7 @@ def register_user(db, email: str, password: str):
     return user
 
 
-
+# LOGIN USER and RETURN JWT TOKEN
 def login_user(db, email: str, password: str):
     user = db.query(User).filter(User.email == email).first()
 

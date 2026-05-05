@@ -8,6 +8,7 @@ from core.dependencies import get_current_user, is_it_admin
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
+# CREATE PRODUCT ENDPOINT
 @router.post("/", response_model=ProductOut)
 def create_product(
     data: ProductCreate,
@@ -16,6 +17,7 @@ def create_product(
 ):
     return product_service.create_product(db, data)
 
+# GET PRODUCTS LIST ENDPOINT
 @router.get("/", response_model=list[ProductOut])
 def get_products(
     search: str | None = None,
@@ -30,6 +32,7 @@ def get_products(
         db, search, min_price, max_price, category, limit, offset
     )
 
+# UPDATE PRODUCT BY ID  ENDPOINT
 @router.put("/{product_id}", response_model=ProductOut)
 def update_product(
     product_id: int,
@@ -42,7 +45,7 @@ def update_product(
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
-
+# DELETE PRODUCT BY ID ENDPOINT
 @router.delete("/{product_id}")
 def delete_product(
     product_id: int,

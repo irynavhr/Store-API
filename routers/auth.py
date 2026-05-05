@@ -9,14 +9,17 @@ from db import get_db
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
+# REGISTER 
 @router.post("/register")
 def register(user_data: UserCreate, db: Session = Depends(get_db)):
     return register_user(db, user_data.email, user_data.password)
 
+# LOGIN
 @router.post("/login")
 def login(data: UserLogin, db: Session = Depends(get_db)):
     return login_user(db, data.email, data.password)
 
+# AUTHORIZE WITH TOKEN
 @router.get("/me")
 def get_me(user: User = Depends(get_current_user)):
     return user 
