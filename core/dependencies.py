@@ -1,17 +1,19 @@
 from fastapi.security import HTTPAuthorizationCredentials, OAuth2PasswordBearer
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.security import HTTPBearer
 
 from core.jwt import decode_token
 from db import get_db
 from models.user import User
 
 
-# функція авторизіції в сваггері
-from fastapi.security import HTTPBearer
+
+
+# дістаємо токен з хедера запиту
 oauth2_scheme = HTTPBearer()
 
-# дістаємо дані користувача з токена
+# перряємо користувача і дістаємо його дані
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
@@ -34,7 +36,7 @@ def get_current_user(
     return user
 
 
-
+# якщо адмін, то повертаємо користувача, якщо ні - помилка 403
 def is_it_admin(user: User = Depends(get_current_user)):
     if user.role != "admin":
         raise HTTPException(status_code=403, detail="Admin only")
