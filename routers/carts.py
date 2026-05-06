@@ -22,7 +22,7 @@ def add_to_cart(
     db: Session = Depends(get_db),
     user = Depends(get_current_user)
 ):
-    return cart_service.add_to_cart(db, user.id, data.product_id)
+    return cart_service.add_to_cart(db, user.id, data.product_id, data.quantity)
 
 
 # REMOVE ITEM FROM CART

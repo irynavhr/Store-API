@@ -12,7 +12,6 @@ class Cart(Base):
     user_id = Column(Integer, ForeignKey("users.id"), unique=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    # зв'язки
     items = relationship("CartItem", back_populates="cart", cascade="all, delete")
     user = relationship("User", back_populates="carts")
     

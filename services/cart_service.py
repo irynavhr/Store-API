@@ -29,7 +29,7 @@ def get_or_create_cart(db: Session, user_id: int):
 
 
 #  ADD TO CART
-def add_to_cart(db: Session, user_id: int, product_id: int):
+def add_to_cart(db: Session, user_id: int, product_id: int, quantity: int):
     product = db.query(Product).filter(Product.id == product_id).first()
 
     if not product:
@@ -43,12 +43,12 @@ def add_to_cart(db: Session, user_id: int, product_id: int):
     ).first()
 
     if item:
-        item.quantity += 1
+        item.quantity += quantity
     else:
         item = CartItem(
             cart_id=cart.id,
             product_id=product_id,
-            quantity=1
+            quantity=quantity
         )
         db.add(item)
 
