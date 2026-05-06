@@ -5,6 +5,8 @@ from models import user, product, order, orderItem, cart, cart_items, favorite, 
 from routers.auth import router as auth_router
 from routers.products import router as products_router
 from routers.carts import router as carts_router
+from routers.orders import router as order_router
+
 
 
 # INITIALIZE THE FASTAPI APP
@@ -22,4 +24,4 @@ def root():
 app.include_router(auth_router)
 app.include_router(products_router)
 app.include_router(carts_router)
-
+app.include_router(order_router)
