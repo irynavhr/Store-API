@@ -8,7 +8,7 @@ from models.cart_items import CartItem
 from models.user import User
 
 # CART TO ORDER
-def create_order(db: Session, current_user: User):
+def create_order(db: Session, current_user: User, bonus_to_spend: int):
     # LOAD CART WITH ITEMS AND PRODUCTS
     cart = (
         db.query(Cart)
@@ -31,6 +31,7 @@ def create_order(db: Session, current_user: User):
             detail="Cart is empty"
         )
 
+    
     total_price = 0
     # CREATE ORDER
     order = Order(
@@ -42,22 +43,42 @@ def create_order(db: Session, current_user: User):
     db.add(order)
     db.flush()
 
-    # CREATE ALL ORDER ITEMS AND CALC TOT PRICE
+    # CREATE ORDER ITEMS and CALC TOT PRICE with DISCOUNTS
     for item in cart.items:
-
-        item_total = item.product.price * item.quantity
+        discounted_price = item.product.price * (1 - item.product.discount_persent)
+        item_total = discounted_price * item.quantity
         total_price += item_total
 
         order_item = OrderItem(
             order_id=order.id,
             product_id=item.product_id,
             quantity=item.quantity,
-            price=item.product.price
+            price=discounted_price
         )
 
         db.add(order_item)
+
+    # APPLY BONUSES
+    max_bonus_allowed = int(total_price * 0.2)
+    if bonus_to_spend > max_bonus_allowed:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Too many bonuses. Max allowed is {max_bonus_allowed}"
+        )
+    
+    total_price -= bonus_to_spend # APPLY BONUSES 
+    current_user.bonus_balance -= bonus_to_spend # SPEND BONUSES
+
+    # IF FIRST ODER - EARNX2 BONUSES
+    previous_orders = db.query(Order).filter(
+        Order.user_id == current_user.id
+    ).count()
+    bonus_rate = 0.2 if previous_orders == 1 else 0.1
+    current_user.bonus_balance += int(total_price * bonus_rate)  # EARN NEW BONUSES
+
     # UPDATE TOT PRICE IN ORDER
     order.total_price = total_price
+
     # CLEAR CART
     for item in cart.items:
         db.delete(item)

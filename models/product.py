@@ -11,8 +11,9 @@ class Product(Base):
 
     name = Column(String, nullable=False)
     description = Column(String)
-    price = Column(Float, nullable=False)
     category = Column(String, index=True)
+    price = Column(Float, nullable=False)
+    discount_persent = Column(Float, default=0.0)
 
     order_items = relationship("OrderItem", back_populates="product")
     cart_items = relationship("CartItem", back_populates="product")

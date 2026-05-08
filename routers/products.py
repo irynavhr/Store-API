@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from db import get_db
-from schemas.product import ProductCreate, ProductOut, ProductUpdate
+from schemas.product import ProductCreate, ProductResponse, ProductUpdate
 from services import product_service
 from core.dependencies import get_current_user, is_it_admin
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
 # CREATE PRODUCT ENDPOINT
-@router.post("/", response_model=ProductOut)
+@router.post("/", response_model=ProductResponse)
 def create_product(
     data: ProductCreate,
     db: Session = Depends(get_db),
@@ -18,7 +18,7 @@ def create_product(
     return product_service.create_product(db, data)
 
 # GET PRODUCTS LIST ENDPOINT
-@router.get("/", response_model=list[ProductOut])
+@router.get("/", response_model=list[ProductResponse])
 def get_products(
     search: str | None = None,
     min_price: float | None = None,
@@ -33,7 +33,7 @@ def get_products(
     )
 
 # UPDATE PRODUCT BY ID  ENDPOINT
-@router.put("/{product_id}", response_model=ProductOut)
+@router.put("/{product_id}", response_model=ProductResponse)
 def update_product(
     product_id: int,
     data: ProductUpdate,

@@ -17,7 +17,8 @@ def register_user(db, email: str, password: str):
     user = User(
         email=email,
         hashed_password=hash_password(password),
-        role="user"
+        role="user",
+        bonus_balance=100
     )
 
     db.add(user)

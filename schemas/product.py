@@ -4,8 +4,9 @@ from pydantic import BaseModel
 class ProductBase(BaseModel):
     name: str
     description: str | None = None
-    price: float
     category: str | None = None
+    price: float
+    discount_persent: float | None = 0.0
 
 
 class ProductCreate(ProductBase):
@@ -16,7 +17,7 @@ class ProductUpdate(ProductBase):
     pass
 
 
-class ProductOut(ProductBase):
+class ProductResponse(ProductBase):
     id: int
 
     class Config:

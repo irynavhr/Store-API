@@ -11,6 +11,8 @@ class User(Base):
     hashed_password = Column(String)
     role = Column(String, default="user")
 
+    bonus_balance = Column(Integer, default=0)
+
     orders = relationship("Order", back_populates="user")
     favorites = relationship("Favorite", back_populates="user")
     carts = relationship("Cart", back_populates="user")

@@ -32,3 +32,6 @@ class OrderStatusUpdate(BaseModel):
     status: OrderStatus = Field(
         description="Available: pending, confirmed, shipped, cancelled"
     )
+
+class OrderCreate(BaseModel):
+    bonus_to_spend: int = 0

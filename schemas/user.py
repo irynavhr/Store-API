@@ -11,6 +11,7 @@ class UserLogin(BaseModel):
 class UserPreview(BaseModel):
     id: int
     email: str
+    bonus_balance: int
 
     class Config:
         from_attributes = True

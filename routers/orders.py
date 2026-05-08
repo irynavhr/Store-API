@@ -10,7 +10,7 @@ from services.order_service import (
 )
 from core.dependencies import get_current_user, is_it_admin
 from models.user import User
-from schemas.order import OrderResponse, OrderStatusUpdate
+from schemas.order import OrderCreate, OrderResponse, OrderStatusUpdate
 
 
 router = APIRouter(
@@ -24,11 +24,12 @@ router = APIRouter(
     response_model=OrderResponse
 )
 def create_new_order(
+    order_data: OrderCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
 
-    return create_order(db, current_user)
+    return create_order(db, current_user, order_data.bonus_to_spend)
 
 # GET ORDERS FOR CURRENT USER
 @router.get(
