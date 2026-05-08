@@ -1,6 +1,8 @@
 from db import Base
 from sqlalchemy import Column, Float, Integer, String, DateTime
 from datetime import datetime, timezone
+from sqlalchemy import Enum
+import enum
 
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
@@ -18,3 +20,11 @@ class Order(Base):
 
     user = relationship("User", back_populates="orders")
     items = relationship("OrderItem", back_populates="order")
+
+
+# ENUM FOR ORDER STATUS - exect values
+class OrderStatus(str, enum.Enum):
+    pending = "pending"
+    confirmed = "confirmed"
+    shipped = "shipped"
+    cancelled = "cancelled"

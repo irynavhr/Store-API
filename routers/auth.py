@@ -7,7 +7,7 @@ from services.auth_service import login_user, register_user
 from core.dependencies import get_current_user
 from db import get_db
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 # REGISTER 
 @router.post("/register")

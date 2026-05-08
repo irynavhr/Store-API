@@ -67,7 +67,7 @@ def create_order(db: Session, current_user: User):
 
     return order
 
-
+# GET ORDERS FOR CURRENT USER
 def get_my_orders(db: Session, current_user: User):
 
     orders = (
@@ -80,3 +80,23 @@ def get_my_orders(db: Session, current_user: User):
     )
 
     return orders
+
+# GET ALL ORDERS (ADMIN ONLY)
+def get_all_orders_of_all_users(db: Session):
+    return db.query(Order).options(joinedload(Order.items)).all()
+    # options(joinedload(Order.items))
+
+
+# UPDATE ORDER STATUS (ADMIN ONLY)
+def update_status_of_order(db: Session, order_id: int, new_status: str):
+    order = db.query(Order).filter(Order.id == order_id).first()
+    if not order:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found"
+        )
+
+    order.status = new_status
+    db.commit()
+    db.refresh(order)
+    return order
