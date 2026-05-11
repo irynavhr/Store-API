@@ -67,6 +67,7 @@ project/
 ├── main.py
 ├── requirements.txt
 └── .env
+```
 
 
 
