@@ -6,6 +6,7 @@ from models.orderItem import OrderItem
 from models.cart import Cart
 from models.cart_items import CartItem
 from models.user import User
+from services.email_service import send_order_created_email, send_order_status_email
 
 # CART TO ORDER
 def create_order(db: Session, current_user: User, bonus_to_spend: int):
@@ -74,7 +75,8 @@ def create_order(db: Session, current_user: User, bonus_to_spend: int):
         Order.user_id == current_user.id
     ).count()
     bonus_rate = 0.2 if previous_orders == 1 else 0.1
-    current_user.bonus_balance += int(total_price * bonus_rate)  # EARN NEW BONUSES
+    bonuses_earned = int(total_price * bonus_rate)
+    current_user.bonus_balance += bonuses_earned  # EARN NEW BONUSES
 
     # UPDATE TOT PRICE IN ORDER
     order.total_price = total_price
@@ -85,6 +87,8 @@ def create_order(db: Session, current_user: User, bonus_to_spend: int):
     # COMMIT ALL CHANGES
     db.commit()
     db.refresh(order)
+
+    send_order_created_email(current_user.email, order.id, bonuses_earned, current_user.bonus_balance)
 
     return order
 
@@ -120,4 +124,7 @@ def update_status_of_order(db: Session, order_id: int, new_status: str):
     order.status = new_status
     db.commit()
     db.refresh(order)
+
+    send_order_status_email(order.user.email, order.id, order.status)
+
     return order

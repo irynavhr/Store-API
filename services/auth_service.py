@@ -4,6 +4,7 @@ from models.user import User
 from core.security import hash_password
 from core.security import verify_password
 from core.jwt import create_access_token
+from services.email_service import send_registration_email
 
 
 
@@ -24,6 +25,8 @@ def register_user(db, email: str, password: str):
     db.add(user)
     db.commit()
     db.refresh(user)
+
+    send_registration_email(user.email, user.bonus_balance)
 
     return user
 
