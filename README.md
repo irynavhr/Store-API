@@ -42,7 +42,7 @@ Backend REST API for an e-commerce web application built with FastAPI.
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 - Python
 - FastAPI
@@ -54,7 +54,7 @@ Backend REST API for an e-commerce web application built with FastAPI.
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```text
 project/
@@ -69,7 +69,7 @@ project/
 └── .env
 ```
 
-
+---
 
 
 
