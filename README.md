@@ -1,87 +1,160 @@
-# 🛍️ Store API
+# E-Commerce REST API
 
-REST API для інтернет-магазину, розроблений на FastAPI.
+Backend REST API for an e-commerce web application built with FastAPI.
 
-Сервіс дозволяє:
+## Features
 
-* реєстрацію та авторизацію користувачів
-* управління товарами
-* роботу з кошиком
-* оформлення замовлень
+### Authentication & Authorization
+- User registration
+- JWT authentication
+- Password hashing with bcrypt/passlib
+- Role-based access control (User/Admin)
 
-Проєкт реалізований як бекенд без клієнтської частини.
+### Products
+- Product CRUD operations
+- Product search
+- Filtering by category and price
+- Pagination
 
-## ⚙️ Технології
+### Cart
+- Add products to cart
+- Remove products from cart
+- View cart contents
 
-* Python
-* FastAPI
-* SQLAlchemy
-* PostgreSQL
-* JWT (аутентифікація)
-* Pydantic (валідація)
+### Orders
+- Create orders from cart
+- Order history
+- Order status management
 
+### Favorites
+- Add products to favorites
+- Remove from favorites
+- View favorite products
 
-## 🧱 Архітектура
+### Messages
+- Send messages from users (via Contact us)
+- Admin message management
 
-Проєкт побудований за принципом розділення відповідальності:
+### Email Notifications
+- Registration email
+- Order creation email
+- Order status update email
 
-* **routers** — обробка HTTP-запитів
-* **services** — бізнес-логіка
-* **models** — SQLAlchemy моделі (таблиці БД)
-* **schemas** — валідація та серіалізація даних
-* **database** — підключення до бази даних
+---
 
-Такий підхід спрощує підтримку та масштабування проєкту.
+# Tech Stack
 
+- Python
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- JWT Authentication
+- Pydantic
+- Resend Email API
 
-## 🔐 Авторизація
+---
 
-Використовується JWT-аутентифікація:
+# Project Structure
 
-* реєстрація користувача
-* логін з отриманням токена
-* захищені ендпоінти через Bearer token
-* ролі: user / admin
-
-Паролі зберігаються у захешованому вигляді.
-
-
-## 🛍️ Функціонал
-* В процесі розширення. Що вже є:
-
-### Користувачі
-
-* реєстрація
-* логін
-
-### Товари
-
-* отримання списку товарів
-* створення / редагування / видалення (admin)
-* пошук та фільтрація
-* пагінація
-
-### Кошик
-* додавання товару до кошика
-* видалення товару з кошика
-* перегляд кошика
-* автоматичне збільшення кількості при повторному додаванні
-* прив’язка кошика до користувача
+```text
+project/
+├── core/
+├── routers/
+├── services/
+├── models/
+├── schemas/
+├── db.py
+├── main.py
+├── requirements.txt
+└── .env
 
 
-## ▶️ Запуск проєкту
+
+
+
+## Installation
+
+### 1. Clone the repository
 
 ```bash
-git clone <repo>
-cd project
+git clone <repository_url>
+cd <project_name>
+```
+
+---
+
+### 2. Create a virtual environment
+
+```bash
 python -m venv venv
+```
+
+Activate the environment:
+
+#### Windows
+
+```bash
 venv\Scripts\activate
+```
+
+#### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
+
+---
+
+### 4. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/db_name
+
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+
+RESEND_API_KEY=your_resend_api_key
+EMAIL_FROM=onboarding@resend.dev
+```
+
+---
+
+### 5. Run the application
+
+```bash
 uvicorn main:app --reload
 ```
 
-Документація доступна за адресою:
+
+
+
+
+## API Documentation & Testing
+
+### Swagger UI
+
+```text
 http://127.0.0.1:8000/docs
+```
 
+Interactive API documentation and endpoint testing.
 
+---
 
+### ReDoc
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+Alternative API documentation interface.

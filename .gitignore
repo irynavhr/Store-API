@@ -1,46 +1,34 @@
-# 🔹 Virtual environment
+# Virtual environment
 venv/
-.env/
 .venv/
 
-# 🔹 Python cache
+# Environment variables
+.env
+
+# Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# 🔹 Environment variables
-.env
-.env.*
-!.env.example
-
-# 🔹 IDE
+# VS Code
 .vscode/
-.idea/
 
-# 🔹 OS files
+# OS files
 .DS_Store
 Thumbs.db
 
-# 🔹 Logs
+# Logs
 *.log
 
-
-# 🔹 Alembic (якщо буде кеш)
-alembic/versions/__pycache__/
-
-# 🔹 Testing
+# Pytest
 .pytest_cache/
 .coverage
-test_db.py
 
-# 🔹 Build
+# Build files
 dist/
 build/
 *.egg-info/
 
-# 🔹 DB 
-db.py
 
-# 🔹 Architecture
+# Custom ignores
 hint.txt
+test_db.py
